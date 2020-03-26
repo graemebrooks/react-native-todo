@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Header from './components/header';
+import TodoItem from './components/todoItem';
 
 export default function App() {
 	const [ todos, setTodos ] = useState([
@@ -9,13 +10,23 @@ export default function App() {
 		{ text: 'plot global domination', key: '3' }
 	]);
 
+	const pressHandler = (key) => {
+		setTodos((prevTodos) => {
+			return prevTodos.filter((todo) => todo.key != key);
+		});
+		console.log(todos);
+	};
+
 	return (
 		<View style={styles.container}>
 			<Header />
 			<View style={styles.content}>
 				{/* todo form */}
 				<View style={styles.list}>
-					<FlatList data={todos} renderItem={({ item }) => <Text>{item.text}</Text>} />
+					<FlatList
+						data={todos}
+						renderItem={({ item }) => <TodoItem item={item} pressHandler={pressHandler} />}
+					/>
 				</View>
 			</View>
 		</View>
